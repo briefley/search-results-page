@@ -2,7 +2,8 @@
 
 namespace Briefley\SearchResultsPage;
 
-use App\Filament\Pages\SearchResultsPage;
+use Briefley\SearchResultsPage\Livewire\SearchResultsPage;
+use Filament\Facades\Filament;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -22,11 +23,15 @@ class SearchResultsPageServiceProvider extends PackageServiceProvider
             ->hasViews();
     }
 
-//    public function packageBooted()
-//    {
-//        Livewire::component(
-//            name: 'search-results-page',
-//            class: SearchResultsPage::class
-//        );
-//    }
+    public function packageBooted()
+    {
+        Livewire::component(
+            name: 'search-results-page',
+            class: SearchResultsPage::class
+        );
+
+        Filament::registerPages([
+            SearchResultsPage::class,
+        ]);
+    }
 }

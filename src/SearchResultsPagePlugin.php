@@ -2,7 +2,7 @@
 
 namespace Briefley\SearchResultsPage;
 
-use App\Filament\Pages\SearchResultsPage;
+use Briefley\SearchResultsPage\Livewire\SearchResultsPage;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
@@ -19,5 +19,10 @@ class SearchResultsPagePlugin implements Plugin
             ->pages([
                 SearchResultsPage::class,
             ]);
+    }
+
+    public function boot(Panel $panel): void
+    {
+        //
     }
 }
