@@ -14,7 +14,7 @@
             "email": "lomidzelashaf@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "filament/support": "^3.0"
     },
