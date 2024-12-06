@@ -1,0 +1,28 @@
+{
+    "name": "briefley/search-results-age",
+    "description": "Separate search results page for filament.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Briefley\\SearchResultsPage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lasha Lomidze",
+            "email": "lomidzelashaf@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "filament/support": "^3.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Briefley\\SearchResultsPage\\SearchResultsPageServiceProvider"
+            ]
+        }
+    }
+}
