@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Pages;
+namespace Briefley\SearchResultsPage\Livewire;
 
 use Filament\Facades\Filament;
 use Filament\Pages\Page;
