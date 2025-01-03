@@ -12,7 +12,7 @@
     <header class="fi-header">
         <x-filament::breadcrumbs class="!mb-2" :breadcrumbs="[
                 url()->previous() => __('search-results-page::searchresults.back'),
-                __('searchresults.search_results'),
+                __('search-results-page::searchresults.search_results'),
             ]" />
         <div class="flex justify-between items-end">
             <h1 class="fi-header-heading">
