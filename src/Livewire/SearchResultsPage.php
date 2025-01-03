@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use Livewire\Attributes\Url;
 use Str;
 
-class SearchResults extends Page
+class SearchResultsPage extends Page
 {
     protected static string $view = 'filament.pages.search-results';
 
