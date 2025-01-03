@@ -12,17 +12,15 @@
             class="px-6 w-full h-8.5 flex justify-between items-center bg-custom-gray-background border-b border-custom-gray-border transition-all"
             :class="{ 'border-transparent': !open }">
         <div class="flex items-center gap-2">
-            @if ($isValidId)
-                <x-filament::icon
-                    icon="icon-search"
-                    class="size-3"
-                />
-            @endif
+            <x-filament::icon
+                icon="icon-search"
+                class="size-3"
+            />
             <h3 class="text-sm !text-custom-black font-medium">{{ $label }} ({{ count($results) }})</h3>
         </div>
         <a href="/admin/{{ \Illuminate\Support\Str::slug($label) }}?tableSearch={{ $this->search }}"
            class="text-xxs text-custom-gray-90 font-medium hover:underline">
-            {{ __('::searchresults.view_more_results') }}
+            {{ __('search-results-page::searchresults.view_more_results') }}
         </a>
     </button>
 
