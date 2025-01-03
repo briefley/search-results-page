@@ -23,6 +23,6 @@
     </a>
 
     @if ($actions)
-        <x-filament-panels::search-results.actions :actions="$actions" />
+        <x-search-results-page::actions :actions="$actions" />
     @endif
 </li>

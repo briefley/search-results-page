@@ -33,14 +33,13 @@
         x-collapse
         @class([
             '!divide-custom-gray-border',
-            'divide-none px-8 py-3 w-full flex flex-wrap gap-2.5' => isset(array_flip(['brands', 'shipping-options', 'dynamic-forms', 'discounts'])[$id]),
         ])
     >
         @php
-            $component =  'filament-panels::search-results.result';
+            $component =  'search-results-page::result';
 
             if($isValidId) {
-                $component = 'filament-panels::search-results.results.' . $id;
+                $component = 'search-results-page::search-results.results.' . $id;
             }
         @endphp
 

@@ -30,12 +30,12 @@
             <ul class="space-y-4">
                 @foreach ($results as $label => $data)
                     @php
-                        $hasPagination = !isset(array_flip(['Brands', 'Shipping Options'])[$label]);
+                        $hasPagination = true;
                         $categoryTotalRecords = $data->first()['details']['totalRecords'];
                     @endphp
 
                     <div wire:key="{{ $label }}">
-                        <x-filament-panels::search-results.result-group
+                        <x-search-results-page::result-group
                             :label="ucwords(str_replace('_', ' ', $label))"
                             :results="$data"
                             @class([

@@ -10,11 +10,11 @@
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::GLOBAL_SEARCH_START) }}
 
     <div class="py-2.5 w-186.5 sm:relative">
-        <x-filament-panels::search-results.field
+        <<x-search-results-page::field
             x-on:keydown.enter.prevent="handleEnter()"
         />
 
-        <x-filament-panels::search-results.results-container
+        <x-search-results-page::results-container
             :results="$results"
         />
     </div>

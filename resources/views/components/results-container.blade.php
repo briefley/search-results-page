@@ -36,11 +36,11 @@
     style="background-color: white"
 >
     @if ($results->getCategories()->isEmpty())
-        <x-filament-panels::search-results.no-results-message />
+        <x-search-results-page::no-results-message />
     @else
         <ul class="px-2 py-3 max-h-153.5 space-y-4 overflow-auto">
             @foreach ($results->getCategories() as $group => $groupedResults)
-                <x-filament-panels::search-results.result-group
+                <x-search-results-page::result-group
                     :label="$group"
                     :results="$groupedResults->take(5)"
                 />
