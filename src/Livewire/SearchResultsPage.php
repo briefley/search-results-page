@@ -6,7 +6,6 @@ use Filament\Facades\Filament;
 use Filament\Pages\Page;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Url;
-use Str;
 
 class SearchResultsPage extends Page
 {

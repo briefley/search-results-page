@@ -31,12 +31,12 @@ class SearchResultsPageServiceProvider extends PackageServiceProvider
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'search-results-page');
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/search-results-page'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/search-results-page'),
         ], 'search-results-page-views');
 
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'search-results-page');
         $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang/search-results-page'),
+            __DIR__.'/../resources/lang' => resource_path('lang/search-results-page'),
         ], 'search-results-translations');
     }
 
