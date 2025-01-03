@@ -19,7 +19,7 @@ trait PaginatesSearchResults
         $totalRecords = (clone $query)->count();
 
         $pageStr = request('categoryPage', '');
-        $category = Str::slug(static::getPluralLabel(), '_');
+        $category = \Str::slug(static::getPluralLabel(), '_');
         $page = 1;
 
         if ($pageStr) {

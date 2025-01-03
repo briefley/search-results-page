@@ -10,6 +10,8 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class SearchResultsPageServiceProvider extends PackageServiceProvider
 {
+    public static string $name = 'search-results-page';
+
     public function configurePackage(Package $package): void
     {
         /*

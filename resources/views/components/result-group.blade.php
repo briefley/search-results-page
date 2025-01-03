@@ -37,10 +37,10 @@
         ])
     >
         @php
-            $component =  'filament-panels::global-search.result';
+            $component =  'filament-panels::search-results.result';
 
             if($isValidId) {
-                $component = 'filament-panels::global-search.results.' . $id;
+                $component = 'filament-panels::search-results.results.' . $id;
             }
         @endphp
 

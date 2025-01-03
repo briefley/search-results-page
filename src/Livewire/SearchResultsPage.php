@@ -10,7 +10,7 @@ use Str;
 
 class SearchResultsPage extends Page
 {
-    protected static string $view = 'filament.pages.search-results';
+    protected static string $view = 'search-results-page::components.search-results';
 
     protected static ?string $title = '';
 
@@ -68,7 +68,7 @@ class SearchResultsPage extends Page
             $this->results = collect($categories)
                 ->mapWithKeys(function ($items, $category) {
                     return [
-                        Str::slug($category, '_') => collect($items)->map(function ($item) {
+                        \Str::slug($category, '_') => collect($items)->map(function ($item) {
                             return [
                                 'title' => $item->title,
                                 'url' => $item->url,

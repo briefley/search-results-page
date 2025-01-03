@@ -35,7 +35,7 @@
                     @endphp
 
                     <div wire:key="{{ $label }}">
-                        <x-filament-panels::global-search.result-group
+                        <x-filament-panels::search-results.result-group
                             :label="ucwords(str_replace('_', ' ', $label))"
                             :results="$data"
                             @class([
