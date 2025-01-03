@@ -1,61 +1,77 @@
+@props([
+    'results' => [],
+])
+
+@php
+    use Filament\GlobalSearch\GlobalSearchResult;
+
+    $totalResults = collect($results)->flatten(1)->count();
+@endphp
+
 <x-filament::page>
-    <div class="space-y-6">
-        <div class="flex justify-end items-center">
-            <p class="text-sm text-gray-500">
-                {{__('lunarpanel::searchresults.total_results')}}
-                <span class="font-semibold">
-                    {{ collect($results)->flatten(1)->count() }}
-                </span>
+    <header class="fi-header">
+        <x-filament::breadcrumbs class="!mb-2" :breadcrumbs="[
+                url()->previous() => __('searchresults.back'),
+                __('searchresults.search_results'),
+            ]" />
+        <div class="flex justify-between items-end">
+            <h1 class="fi-header-heading">
+                {{ __('searchresults.search_results') }}
+            </h1>
+            <p class="text-xs tex-custom-black">
+                {{__('searchresults.total_results', ['count' => $totalResults, 'keyword' => '"'.$search.'"'])}}
             </p>
         </div>
-
-        @if (empty($results))
-            <p>No results found for your search.</p>
+    </header>
+    <main>
+        @if ($results->isEmpty())
+            <p class="text-center">{{ __('searchresults.no_results_found', ['keyword' => '"' . $search .'"'])  }}</p>
         @else
-            @foreach ($results as $category => $items)
-                <div x-data="{ open: true }" class="border-b pb-4 mb-6">
-                    <button
-                        @click="open = !open"
-                        class="w-full text-left flex justify-between items-center p-4 rounded-md focus:outline-none"
-                    >
-                        <h2 class="text-xl font-semibold">{{ $category }}</h2>
-                        <svg
-                            :class="open ? 'rotate-180' : 'rotate-0'"
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="h-5 w-5 transform transition-transform duration-200 ease-in-out"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
+            <ul class="space-y-4">
+                @foreach ($results as $label => $data)
+                    @php
+                        $hasPagination = !isset(array_flip(['Brands', 'Shipping Options'])[$label]);
+                        $categoryTotalRecords = $data->first()['details']['totalRecords'];
+                    @endphp
 
-                    <ul
-                        x-show="open"
-                        x-collapse
-                        class="mt-4 space-y-3"
-                    >
-                        @forelse ($items as $item)
-                            <li>
-                                <a
-                                    href="{{ $item['url'] ?? '#' }}"
-                                    class="block p-4 shadow-sm rounded-md focus:ring"
-                                >
-                                    <h3 class="text-lg font-medium">{{ $item['title'] ?? 'Untitled' }}</h3>
-
-                                    @if (!empty($item['details']))
-                                        <p class="text-sm">
-                                            {{ implode(', ', $item['details']) }}
-                                        </p>
-                                    @endif
-                                </a>
-                            </li>
-                        @empty
-                            <p class="text-gray-500">No items found in {{ $category }}.</p>
-                        @endforelse
-                    </ul>
-                </div>
-            @endforeach
+                    <div wire:key="{{ $label }}">
+                        <x-filament-panels::global-search.result-group
+                            :label="ucwords(str_replace('_', ' ', $label))"
+                            :results="$data"
+                            @class([
+                                'border-b-0 rounded-b-none' => $hasPagination,
+                            ])
+                        />
+                        @if($hasPagination)
+                            <div class="px-5 h-11 flex justify-between items-center text-xs text-custom-gray-70 font-medium bg-table-layout-gray border border-custom-gray-border rounded-b-xl">
+                                <p>
+                                    {{ ($page[$label] - 1) * $perPage + 1 }}-
+                                    {{ min($page[$label] * $perPage, $categoryTotalRecords) }}
+                                    {{ __('searchresults.of.label') }}
+                                    {{ $categoryTotalRecords }}
+                                </p>
+                                <div class="flex items-center gap-2.5">
+                                    <x-filament::icon-button
+                                        icon="chevron-left"
+                                        class="pagination-button "
+                                        wire:click="previousPage('{{$label}}')"
+                                        :disabled="$page[$label] == 1"
+                                    />
+                                    <p>
+                                        <span class="text-custom-black">{{ $page[$label]  }}</span>/{{ ceil($categoryTotalRecords / $perPage) }}
+                                    </p>
+                                    <x-filament::icon-button
+                                        icon="chevron-right"
+                                        class="pagination-button"
+                                        wire:click="nextPage('{{$label}}')"
+                                        :disabled="$page[$label] == ceil($categoryTotalRecords / $perPage)"
+                                    />
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                @endforeach
+            </ul>
         @endif
-    </div>
+    </main>
 </x-filament::page>

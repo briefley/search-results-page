@@ -23,6 +23,18 @@ class SearchResultsPageServiceProvider extends PackageServiceProvider
             ->hasViews();
     }
 
+    public function boot(): void
+    {
+        parent::boot();
+
+        $this->publishes([
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/search-results-page'),
+        ], 'search-results-page-views');
+        $this->publishes([
+            __DIR__ . '/../resources/lang' => resource_path('lang/search-results-page'),
+        ], 'search-results-translations');
+    }
+
     public function packageBooted()
     {
         Livewire::component(

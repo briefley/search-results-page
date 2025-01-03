@@ -4,53 +4,102 @@ namespace Briefley\SearchResultsPage\Livewire;
 
 use Filament\Facades\Filament;
 use Filament\Pages\Page;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Url;
+use Str;
 
-class SearchResultsPage extends Page
+class SearchResults extends Page
 {
-    protected static string $view = 'search-results-page::components.search-results';
+    protected static string $view = 'filament.pages.search-results';
+
+    protected static ?string $title = '';
 
     #[Url]
     public string $search = '';
 
-    public $results;
+    public array $page = [];
 
-    public function mount()
+    #[Url]
+    public string $categoryPage = '';
+
+    public Collection $results;
+
+    public int $perPage = 10;
+
+    public function mount(): void
     {
-        $this->results = $this->performSearch();
+        $this->performSearch();
+        $this->initializePages();
     }
 
-    protected function performSearch()
+    public function nextPage(string $category): void
     {
-        $results = Filament::getGlobalSearchProvider()->getResults($this->search);
-        if (! $results) {
-            return [];
+        $maxPageAmount = ceil($this->results[$category][0]['details']['totalRecords'] / $this->perPage);
+
+        if ($this->page[$category] < $maxPageAmount) {
+            $this->page[$category]++;
+        } else {
+            $this->page[$category] = $maxPageAmount;
         }
-        $categories = $results->getCategories();
 
-        // Convert the results into an array
-        return collect($categories)
-            ->mapWithKeys(function ($items, $category) {
-                return [
-                    $category => collect($items)->map(function ($item) {
-                        return [
-                            'title' => $item->title,
-                            'url' => $item->url,
-                            'details' => $item->details,
-                            'actions' => $item->actions,
-                        ];
-                    })->toArray(),
-                ];
-            })->toArray();
+        $this->updateQueryString($category);
+        $this->performSearch();
     }
 
-    public static function getNavigationIcon(): ?string
+    public function previousPage(string $category): void
     {
-        return 'heroicon-o-search';
+        $this->page[$category] = $this->page[$category] > 1
+            ? $this->page[$category] - 1
+            : $this->page[$category];
+
+        $this->updateQueryString($category);
+        $this->performSearch();
     }
 
-    public static function getNavigationLabel(): string
+    protected function performSearch(): void
     {
-        return 'Search Results';
+        app('request')->merge([
+            'categoryPage' => $this->categoryPage,
+        ]);
+
+        $results = Filament::getGlobalSearchProvider()->getResults($this->search);
+        if ($results) {
+            $categories = $results->getCategories();
+            $this->results = collect($categories)
+                ->mapWithKeys(function ($items, $category) {
+                    return [
+                        Str::slug($category, '_') => collect($items)->map(function ($item) {
+                            return [
+                                'title' => $item->title,
+                                'url' => $item->url,
+                                'details' => $item->details,
+                                'actions' => $item->actions,
+                            ];
+                        }),
+                    ];
+                });
+        }
+    }
+
+    private function initializePages(): void
+    {
+        if ($this->categoryPage && ! $this->page) {
+            parse_str($this->categoryPage, $this->page);
+        }
+
+        foreach ($this->results as $categoryName => $resultsInCategory) {
+            if (! isset($this->page[$categoryName])) {
+                $this->page[$categoryName] = 1;
+            }
+        }
+    }
+
+    private function updateQueryString(string $category): void
+    {
+        parse_str($this->categoryPage, $queryArray);
+
+        $queryArray[$category] = $this->page[$category];
+
+        $this->categoryPage = http_build_query($queryArray);
     }
 }
