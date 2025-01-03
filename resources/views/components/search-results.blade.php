@@ -11,21 +11,21 @@
 <x-filament::page>
     <header class="fi-header">
         <x-filament::breadcrumbs class="!mb-2" :breadcrumbs="[
-                url()->previous() => __('searchresults.back'),
+                url()->previous() => __('search-results-page::searchresults.back'),
                 __('searchresults.search_results'),
             ]" />
         <div class="flex justify-between items-end">
             <h1 class="fi-header-heading">
-                {{ __('searchresults.search_results') }}
+                {{ __('search-results-page::searchresults.search_results') }}
             </h1>
             <p class="text-xs tex-custom-black">
-                {{__('searchresults.total_results', ['count' => $totalResults, 'keyword' => '"'.$search.'"'])}}
+                {{__('search-results-page::searchresults.total_results', ['count' => $totalResults, 'keyword' => '"'.$search.'"'])}}
             </p>
         </div>
     </header>
     <main>
         @if ($results->isEmpty())
-            <p class="text-center">{{ __('searchresults.no_results_found', ['keyword' => '"' . $search .'"'])  }}</p>
+            <p class="text-center">{{ __('search-results-page::searchresults.no_results_found', ['keyword' => '"' . $search .'"'])  }}</p>
         @else
             <ul class="space-y-4">
                 @foreach ($results as $label => $data)
@@ -47,7 +47,7 @@
                                 <p>
                                     {{ ($page[$label] - 1) * $perPage + 1 }}-
                                     {{ min($page[$label] * $perPage, $categoryTotalRecords) }}
-                                    {{ __('searchresults.of.label') }}
+                                    {{ __('search-results-page::searchresults.of.label') }}
                                     {{ $categoryTotalRecords }}
                                 </p>
                                 <div class="flex items-center gap-2.5">

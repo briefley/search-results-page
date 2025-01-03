@@ -57,7 +57,7 @@
                         icon="icon-enter"
                         class="size-3.5"
                     />
-                    <p class="text-sm font-medium">{{ __('searchresults.enter.label') }}</p>
+                    <p class="text-sm font-medium">{{ __('search-results-page::searchresults.enter.label') }}</p>
                 </button>
             </div>
         </div>

@@ -47,7 +47,7 @@
             @endforeach
         </ul>
         <button x-on:click="handleEnter()" class="w-full h-12.5 bg-white text-xs text-custom-gray-70 font-medium hover:underline border-t border-black/5 shadow-lg">
-            {{ __('searchresults.view_more_results') }}
+            {{ __('search-results-page::searchresults.view_more_results') }}
         </button>
     @endif
 </div>
